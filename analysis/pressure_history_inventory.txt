@@ -1,0 +1,15 @@
+Extracted pressure-history inventory
+===================================
+pressure_history_extract/MG3V pressure_step_history.csv | 194042 | MG3V | step,time_s,dt_s,cycles,initial_residual,final_residual,final_relative_residual,convergence_factor
+pressure_history_extract/RMT pressure_step_history.csv | 194042 | RMT | step,time_s,dt_s,rbgs_sweeps,initial_residual,final_residual,final_relative_residual,convergence_factor
+
+Selected histories
+MG3V | pressure_history_extract/MG3V pressure_step_history.csv | rows=194042 | work_col=cycles
+RMT | pressure_history_extract/RMT pressure_step_history.csv | rows=194042 | work_col=rbgs_sweeps
+
+Campaign cost anchors
+{'solver': 'RMT', 'case_id': 'REACTION_STIFFNESS__S2_INTERMEDIATE_A1e8_Ta500__M4_864x288__C16', 'physical_case': 'S2_INTERMEDIATE_A1e8_Ta500', 'mesh_name': 'M4_864x288', 'threads': '16', 'pressure_time_s': 1052.7361266380237, 'total_work_units': 87365.0, 'seconds_per_work_unit': 0.012049861233194343, 'total_wall_s': 4776.615292408}
+{'solver': 'MG3V', 'case_id': 'REACTION_STIFFNESS__S2_INTERMEDIATE_A1e8_Ta500__M4_864x288__C16', 'physical_case': 'S2_INTERMEDIATE_A1e8_Ta500', 'mesh_name': 'M4_864x288', 'threads': '16', 'pressure_time_s': 158.69854415200112, 'total_work_units': 108090.0, 'seconds_per_work_unit': 0.0014682074581552514, 'total_wall_s': 3871.320942502}
+{'solver': 'MG2V', 'case_id': 'REACTION_STIFFNESS__S2_INTERMEDIATE_A1e8_Ta500__M4_864x288__C16', 'physical_case': 'S2_INTERMEDIATE_A1e8_Ta500', 'mesh_name': 'M4_864x288', 'threads': '16', 'pressure_time_s': 176.47584943600313, 'total_work_units': 100025.0, 'seconds_per_work_unit': 0.0017643174150062798, 'total_wall_s': 3889.102127238}
+{'solver': 'MG2W', 'case_id': 'REACTION_STIFFNESS__S2_INTERMEDIATE_A1e8_Ta500__M4_864x288__C16', 'physical_case': 'S2_INTERMEDIATE_A1e8_Ta500', 'mesh_name': 'M4_864x288', 'threads': '16', 'pressure_time_s': 218.3344696119982, 'total_work_units': 83686.0, 'seconds_per_work_unit': 0.0026089724638768516, 'total_wall_s': 3961.101863829}
+{'solver': 'SG', 'case_id': 'REACTION_STIFFNESS__S2_INTERMEDIATE_A1e8_Ta500__M4_864x288__C16', 'physical_case': 'S2_INTERMEDIATE_A1e8_Ta500', 'mesh_name': 'M4_864x288', 'threads': '16', 'pressure_time_s': 606.1198319169579, 'total_work_units': 3349714.0, 'seconds_per_work_unit': 0.00018094674109997387, 'total_wall_s': 4304.92888313}

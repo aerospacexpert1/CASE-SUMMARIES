@@ -1,0 +1,39 @@
+Estimated cumulative pressure-time comparison
+Uses campaign-average seconds/work-unit, not per-step measured timing.
+
+t <= 0.001 s
+  MG3V : work=567, mean=4.84615, zero=0.00%, estPressure=0.832474 s
+  RMT  : work=161, mean=1.37607, zero=0.85%, estPressure=1.94003 s
+
+t <= 0.005 s
+  MG3V : work=756, mean=1.49703, zero=39.41%, estPressure=1.10996 s
+  RMT  : work=363, mean=0.718812, zero=37.03%, estPressure=4.3741 s
+
+t <= 0.01 s
+  MG3V : work=992, mean=1.00202, zero=47.07%, estPressure=1.45646 s
+  RMT  : work=603, mean=0.609091, zero=43.64%, estPressure=7.26607 s
+
+t <= 0.05 s
+  MG3V : work=3275, mean=0.672347, zero=56.46%, estPressure=4.80838 s
+  RMT  : work=2456, mean=0.504209, zero=50.50%, estPressure=29.5945 s
+
+t <= 0.1 s
+  MG3V : work=5874, mean=0.604259, zero=56.71%, estPressure=8.62425 s
+  RMT  : work=4799, mean=0.493673, zero=51.10%, estPressure=57.8273 s
+
+t <= 0.25 s
+  MG3V : work=13874, mean=0.571582, zero=57.05%, estPressure=20.3699 s
+  RMT  : work=11426, mean=0.470729, zero=53.11%, estPressure=137.682 s
+
+t <= 0.5 s
+  MG3V : work=26983, mean=0.556052, zero=57.05%, estPressure=39.6166 s
+  RMT  : work=22362, mean=0.460825, zero=54.01%, estPressure=269.459 s
+
+t <= 1 s
+  MG3V : work=54272, mean=0.559326, zero=57.47%, estPressure=79.6826 s
+  RMT  : work=44080, mean=0.454288, zero=54.62%, estPressure=531.158 s
+
+t <= 2 s
+  MG3V : work=108090, mean=0.557044, zero=57.52%, estPressure=158.699 s
+  RMT  : work=87365, mean=0.450238, zero=55.00%, estPressure=1052.74 s
+
