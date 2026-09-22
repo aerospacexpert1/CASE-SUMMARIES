@@ -1,36 +1,41 @@
-# This is a basic workflow to help you get started with Actions
+name: Pressure history analysis CI
 
-name: CI
-
-# Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the "main" branch
   push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
-
-  # Allows you to run this workflow manually from the Actions tab
+    branches: [ "pressure-history-analysis" ]
+    paths:
+      - 'pressure_step_history.rar'
+      - 'tools/analyze_pressure_history.py'
+      - '.github/workflows/blank.yml'
   workflow_dispatch:
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+permissions:
+  contents: write
+
 jobs:
-  # This workflow contains a single job called "build"
-  build:
-    # The type of runner that the job will run on
+  analyze:
     runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
+    timeout-minutes: 30
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v4
-
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Hello, world!
-
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
+        with:
+          ref: pressure-history-analysis
+      - name: Install archive tools
         run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+          sudo apt-get update
+          sudo apt-get install -y p7zip-full
+      - name: Extract archive
+        run: |
+          rm -rf pressure_history_extract
+          mkdir pressure_history_extract
+          7z x -y pressure_step_history.rar -opressure_history_extract
+          find pressure_history_extract -type f -printf '%p\n' | sort | head -200
+      - name: Analyze histories
+        run: python3 tools/analyze_pressure_history.py
+      - name: Publish compact analysis
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add analysis/
+          git commit -m 'Publish pressure history analysis [skip ci]' || true
+          git push origin HEAD:pressure-history-analysis
