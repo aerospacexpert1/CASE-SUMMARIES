@@ -198,6 +198,38 @@ for solver,(p,n) in best.items():
 with (OUT/"pressure_history_compact.csv").open("w",newline="") as fh:
     wr=csv.DictWriter(fh,fieldnames=fields); wr.writeheader(); wr.writerows(sorted(compact,key=lambda r:(r["window_end_s"],r["solver"])))
 
+# Early-step detail for cold-start inspection.
+early=[]
+for solver,(p,n) in best.items():
+    try:
+        with p.open(newline="", errors="replace") as fh:
+            rd=csv.DictReader(fh)
+            hdr=rd.fieldnames or []
+            rows=list(rd)
+    except Exception:
+        continue
+    tcol=next((x for x in ["time_s","time"] if x in hdr),None)
+    cyc_col=next((x for x in ["cycles","rmt_cycles","vcycles","wcycles","rbgs_sweeps","sweeps"] if x in hdr),None)
+    if cyc_col is None and len(hdr)>=4: cyc_col=hdr[3]
+    sec=cost.get(solver,math.nan)
+    for r in rows[:200]:
+        c=fnum(r.get(cyc_col,"nan")) if cyc_col else math.nan
+        early.append({
+            "solver":solver,
+            "step":r.get("step",""),
+            "time_s":r.get(tcol,"") if tcol else "",
+            "work_units":c,
+            "initial_residual":r.get("initial_residual",""),
+            "final_residual":r.get("final_residual",""),
+            "final_relative_residual":r.get("final_relative_residual",""),
+            "convergence_factor":r.get("convergence_factor",""),
+            "sec_per_work_unit_from_campaign":sec,
+            "estimated_pressure_time_s":c*sec if math.isfinite(c) and math.isfinite(sec) else math.nan,
+        })
+ef=["solver","step","time_s","work_units","initial_residual","final_residual","final_relative_residual","convergence_factor","sec_per_work_unit_from_campaign","estimated_pressure_time_s"]
+with (OUT/"pressure_history_early_steps.csv").open("w",newline="") as fh:
+    wr=csv.DictWriter(fh,fieldnames=ef); wr.writeheader(); wr.writerows(early)
+
 # Crossover estimates based on average campaign cost/work-unit.
 # Compare cumulative estimated pressure time at each common window.
 bywin={}
