@@ -1,0 +1,41 @@
+name: Analyze pressure step history
+
+on:
+  push:
+    branches: [pressure-history-analysis]
+    paths:
+      - 'pressure_step_history.rar'
+      - 'tools/analyze_pressure_history.py'
+      - '.github/workflows/analyze-pressure-history.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: pressure-history-analysis
+      - name: Install archive tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y p7zip-full
+      - name: Extract archive
+        run: |
+          rm -rf pressure_history_extract
+          mkdir pressure_history_extract
+          7z x -y pressure_step_history.rar -opressure_history_extract
+          find pressure_history_extract -maxdepth 4 -type f -printf '%p\n' | sort | head -200
+      - name: Analyze histories
+        run: python3 tools/analyze_pressure_history.py
+      - name: Publish compact analysis
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add analysis/
+          git commit -m 'Publish pressure history analysis [skip ci]' || true
+          git push origin HEAD:pressure-history-analysis
